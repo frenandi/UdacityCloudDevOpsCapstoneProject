@@ -1,19 +1,19 @@
 pipeline {
-    def app
     environment {
         registry = "frenandi/clouddevopscapstoneproject"
         registryCredential = 'dockerhub'
+        dockerImage = ''
     }
-     agent any
-     stages {
-         stage('Build') {
-             steps {
-                 sh 'echo "Hello World!!!"'
-                 sh '''
-                     echo "Multiline shell steps works too"
-                     ls -lah
-                 '''
-             }
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'echo "Hello World!!!"'
+                sh '''
+                    echo "Multiline shell steps works too"
+                    ls -lah
+                '''
+            }
         }
         stage ("lint dockerfile") {
             agent {
@@ -31,15 +31,23 @@ pipeline {
             }
         }
         stage('Build image') {
-            app = docker.build("anandr72/nodeapp")
-            app = docker.build("my-image:${env.BUILD_ID}", "-f dockerfiles/Dockerfile")
+            app = docker.build("${registry}", "-f dockerfiles/Dockerfile")
         }
-        stage('Push image') {
-            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
-                app.push("${env.BUILD_NUMBER}")
-                app.push("latest")
-                } 
-                    echo "Trying to Push Docker Build to DockerHub"
+        stage('Building image') {
+            steps{
+                script {
+                    dockerImage = docker.build("my-image:${env.BUILD_ID}", "-f dockerfiles/Dockerfile")
+                }
+            }
         }
-     }     
+        stage('Deploy Image') {
+            steps{
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+    }     
 }
