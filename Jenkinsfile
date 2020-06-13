@@ -30,13 +30,10 @@ pipeline {
                 }
             }
         }
-        stage('Build image') {
-            app = docker.build("${registry}", "-f dockerfiles/Dockerfile")
-        }
         stage('Building image') {
             steps{
                 script {
-                    dockerImage = docker.build("my-image:${env.BUILD_ID}", "-f dockerfiles/Dockerfile")
+                    dockerImage = docker.build("${registry}:${env.BUILD_ID}", "-f dockerfiles/Dockerfile")
                 }
             }
         }
