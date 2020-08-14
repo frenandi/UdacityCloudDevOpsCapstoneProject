@@ -6,6 +6,18 @@ pipeline {
     }
     agent any
     stages {
+        stage('Deploy CloudFormation EKS Cluster') {
+            steps{
+                sh './create-stack.sh firstClusterTest EKSClusterCloudFormation.yml EKSClusterCloudFormationParameters.json'
+                sh 'aws cloudformation wait stack-create-complete --stack-name firstClusterTest'
+            }
+        }
+        stage('Deploy CloudFormation EKS ') {
+            steps{
+                sh './create-stack.sh firstNodeTest EKSNodeCloudFormation.yml EKSNodeCloudFormationParameters.json'
+                sh 'aws cloudformation wait stack-create-complete --stack-name firstNodeTest'
+            }
+        }
         stage('Build') {
             steps {
                 sh 'echo "Hello World!!!"'
@@ -46,5 +58,6 @@ pipeline {
                 }
             }
         }
+        
     }     
 }
