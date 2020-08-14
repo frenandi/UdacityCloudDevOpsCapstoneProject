@@ -8,14 +8,18 @@ pipeline {
     stages {
         stage('Deploy CloudFormation EKS Cluster') {
             steps{
-                sh './create-stack.sh firstClusterTest EKSClusterCloudFormation.yml EKSClusterCloudFormationParameters.json'
-                sh 'aws cloudformation wait stack-create-complete --stack-name firstClusterTest'
+                withAWS(region:'us-east-2',credentials:'aws-static') {
+                    sh './create-stack.sh firstClusterTest EKSClusterCloudFormation.yml EKSClusterCloudFormationParameters.json'
+                    sh 'aws cloudformation wait stack-create-complete --stack-name firstClusterTest'
+                }
             }
         }
         stage('Deploy CloudFormation EKS ') {
             steps{
-                sh './create-stack.sh firstNodeTest EKSNodeCloudFormation.yml EKSNodeCloudFormationParameters.json'
-                sh 'aws cloudformation wait stack-create-complete --stack-name firstNodeTest'
+                withAWS(region:'us-east-2',credentials:'aws-static') {
+                    sh './create-stack.sh firstNodeTest EKSNodeCloudFormation.yml EKSNodeCloudFormationParameters.json'
+                    sh 'aws cloudformation wait stack-create-complete --stack-name firstNodeTest'
+                }
             }
         }
         stage('Build') {
