@@ -9,7 +9,7 @@ pipeline {
         stage('Deploy CloudFormation EKS Cluster') {
             steps{
                 withAWS(region:'us-east-2',credentials:'awscredentials') {
-                    sh 'aws cloudformation create-stack --stack-name firstClusterTest --template-body EKSClusterCloudFormation.yml --parameters EKSClusterCloudFormationParameters.json  --region us-east-2 --capabilities CAPABILITY_NAMED_IAM' 
+                    sh 'aws cloudformation create-stack --stack-name firstClusterTest --template-body EKSClusterCloudFormation.yml --parameters EKSClusterCloudFormationParameters.json --region us-east-2 --capabilities CAPABILITY_NAMED_IAM' 
                     sh 'aws cloudformation wait stack-create-complete --stack-name firstClusterTest'
                 }
             }
