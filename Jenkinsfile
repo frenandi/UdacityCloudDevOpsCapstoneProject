@@ -1,14 +1,20 @@
 pipeline {
     environment {
         registry = "frenandi/clouddevopscapstoneproject"
-        registryCredential = 'dockerhub'
+        registryCredential = "dockerhub"
         dockerImage = ''
-        clusterCloudformationName = 'UdacityCloudDevOpsClusterStack'
-        clusterCloudformationFileName = 'EKSClusterCloudFormation.yml'
-        clusterCloudformationParameterFileName = 'EKSClusterCloudFormationParameters.json'
-        clusterNodeCloudformationName = 'UdacityCloudDevOpsClusterNodeStack'
-        clusterNodeCloudformationFileName = 'UdacityCloudDevOpsClusterNodeStack'
-        clusterNodeCloudformationParameterFileName = 'EKSClusterCloudFormation.yml'
+        clusterCloudformationName = "UdacityCloudDevOpsClusterStack"
+        clusterCloudformationFileName = "EKSClusterCloudFormation.yml"
+        clusterCloudformationParameterFileName = "EKSClusterCloudFormationParameters.json"
+        clusterNodeCloudformationName = "UdacityCloudDevOpsClusterNodeStack"
+        clusterNodeCloudformationFileName = "EKSNodeCloudFormation.yml"
+        clusterNodeCloudformationParameterFileName = "EKSNodeCloudFormationParameters.json"
+        kubernetesDeployName = "kubernetesDeployment"
+        kubernetesDeployYamlFileName = "kubenetesDeployment.yml"
+        kubernetesContainerNameFromDeploymentYaml = "frenandi-site"
+        kubernetesServiceName = "frenandi-site-kubernetes-service"
+        kubernetesPort = 8080
+        kubernetesTargetPort = 9376
     }
     agent any
     stages {
@@ -25,14 +31,6 @@ pipeline {
                 }
             }
         }
-        /*stage('Deploy CloudFormation EKS Cluster') {
-            steps{
-                withAWS(region:'us-east-2',credentials:'awscredentials') {
-                    sh 'aws cloudformation create-stack --stack-name firstClusterTest --template-body file://EKSClusterCloudFormation.yml --parameters file://EKSClusterCloudFormationParameters.json --region us-east-2 --capabilities CAPABILITY_NAMED_IAM' 
-                    sh 'aws cloudformation wait stack-create-complete --stack-name firstClusterTest'
-                }
-            }
-        }*/
         stage('Deploy CloudFormation EKS ') {
             steps{
                 withAWS(region:'us-east-2',credentials:'awscredentials') {
@@ -41,14 +39,6 @@ pipeline {
                 }
             }
         }
-        /*stage('Deploy CloudFormation EKS ') {
-            steps{
-                withAWS(region:'us-east-2',credentials:'awscredentials') {
-                    sh 'aws cloudformation create-stack --stack-name firstNodeTest --template-body file://EKSNodeCloudFormation.yml --parameters file://EKSNodeCloudFormationParameters.json --region us-east-2 --capabilities CAPABILITY_NAMED_IAM'
-                    sh 'aws cloudformation wait stack-create-complete --stack-name firstNodeTest'
-                }
-            }
-        }*/
         stage ("lint dockerfile") {
             agent {
                 docker {
@@ -80,9 +70,9 @@ pipeline {
                 }
             }
         }
-        stage('Testing access ') {
+        stage('First deploy from kubernetes') {
             steps{
-                sh "./kubernetesdeploy.sh ${registry}:${env.BUILD_ID} holamundo"
+                sh "./kubernetesdeploy.sh ${kubernetesDeployYamlFileName} ${kubernetesContainerNameFromDeploymentYaml} ${kubernetesDeployName} ${registry}:${env.BUILD_ID} ${kubernetesServiceName} ${kubernetesPort} ${kubernetesTargetPort}"
             }
         }
     }     
