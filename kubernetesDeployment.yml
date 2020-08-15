@@ -14,9 +14,9 @@ spec:
         spec:
             containers:
                 - name: frenandi-site
-                image: "frenandi/clouddevopscapstoneproject:latest"
-                imagePullPolicy: Always
-                ports:
+                  image: "frenandi/clouddevopscapstoneproject:latest"
+                  imagePullPolicy: Always
+                  ports:
                     - containerPort: 80
             imagePullSecrets:
                 - name: frenandicred
