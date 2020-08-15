@@ -71,6 +71,13 @@ pipeline {
                 }
             }
         }
+        stage('set context'){
+            steps{
+                withAWS(region:'us-east-2',credentials:'awscredentials') {
+                    "aws eks --region us-east-2 update-kubeconfig --name final-project-udacity-my-real-test"
+                }
+            }
+        }
         stage('First deploy from kubernetes') {
             steps{
                 sh "./kubernetesDeployment.sh ${kubernetesDeployYamlFileName} ${kubernetesContainerNameFromDeploymentYaml} ${kubernetesDeployName} ${registry}:${env.BUILD_ID} ${kubernetesServiceName} ${kubernetesPort} ${kubernetesTargetPort}"
