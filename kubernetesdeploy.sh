@@ -1,1 +1,3 @@
-aws eks --region us-east-2 update-kubeconfig --name final-project-udacity-my-real-test
+sh echo $1
+
+sh echo $2

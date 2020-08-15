@@ -3,32 +3,37 @@ pipeline {
         registry = "frenandi/clouddevopscapstoneproject"
         registryCredential = 'dockerhub'
         dockerImage = ''
+        lastImage = ${env.BUILD_ID}
     }
     agent any
     stages {
-        stage('Deploy CloudFormation EKS Cluster') {
+        stage('Testing access ') {
+            steps{
+                sh "./kubernetesdeploy.sh ${registry}:${env.BUILD_ID} holamundo"
+            }
+        }
+        stage('Deploy Stack but with file') {
+            steps{
+                withAWS(region:'us-east-2',credentials:'awscredentials') {
+                    sh './create-stack.sh test template1 EKSClusterCloudFormation.yml EKSClusterCloudFormationParameters.json' 
+                    sh 'aws cloudformation wait stack-create-complete --stack-name firstClusterTest'
+                }
+            }
+        }
+        /*stage('Deploy CloudFormation EKS Cluster') {
             steps{
                 withAWS(region:'us-east-2',credentials:'awscredentials') {
                     sh 'aws cloudformation create-stack --stack-name firstClusterTest --template-body file://EKSClusterCloudFormation.yml --parameters file://EKSClusterCloudFormationParameters.json --region us-east-2 --capabilities CAPABILITY_NAMED_IAM' 
                     sh 'aws cloudformation wait stack-create-complete --stack-name firstClusterTest'
                 }
             }
-        }
+        }*/
         stage('Deploy CloudFormation EKS ') {
             steps{
                 withAWS(region:'us-east-2',credentials:'awscredentials') {
                     sh 'aws cloudformation create-stack --stack-name firstNodeTest --template-body file://EKSNodeCloudFormation.yml --parameters file://EKSNodeCloudFormationParameters.json --region us-east-2 --capabilities CAPABILITY_NAMED_IAM'
                     sh 'aws cloudformation wait stack-create-complete --stack-name firstNodeTest'
                 }
-            }
-        }
-        stage('Build') {
-            steps {
-                sh 'echo "Hello World!!!"'
-                sh '''
-                    echo "Multiline shell steps works too"
-                    ls -lah
-                '''
             }
         }
         stage ("lint dockerfile") {
@@ -62,6 +67,10 @@ pipeline {
                 }
             }
         }
-        
+        stage('Deploy CloudFormation EKS Cluster') {
+            steps{
+                
+            }
+        }
     }     
 }
