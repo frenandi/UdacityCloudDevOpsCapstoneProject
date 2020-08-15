@@ -80,6 +80,7 @@ pipeline {
         }
         stage('First deploy from kubernetes'){
             steps{
+                sh "export PATH=$PATH:/home/ubuntu/kubectl"
                 sh "kubectl apply -f ${kubernetesDeployYamlFileName}"
             }
         }
