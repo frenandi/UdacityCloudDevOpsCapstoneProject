@@ -6,7 +6,7 @@ pipeline {
     }
     agent any
     stages {
-        stage('Testing access 1') {
+        stage('Testing access a') {
             steps{
                 sh "sudo ./kubernetesdeploy.sh ${registry}:${env.BUILD_ID} holamundo"
             }
