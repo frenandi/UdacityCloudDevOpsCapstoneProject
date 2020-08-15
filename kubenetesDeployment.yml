@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frenandi-site
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frenandi-site
+  template:
+    metadata:
+      labels:
+        app: frenandi-site
+    spec:
+      containers:
+      - name: frenandi-site
+        image: ""
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
