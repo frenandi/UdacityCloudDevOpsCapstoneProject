@@ -3,7 +3,6 @@ pipeline {
         registry = "frenandi/clouddevopscapstoneproject"
         registryCredential = 'dockerhub'
         dockerImage = ''
-        lastImage = ${env.BUILD_ID}
     }
     agent any
     stages {
@@ -67,9 +66,9 @@ pipeline {
                 }
             }
         }
-        stage('Deploy CloudFormation EKS Cluster') {
+        stage('Testing access ') {
             steps{
-                
+                sh "./kubernetesdeploy.sh ${registry}:${env.BUILD_ID} holamundo"
             }
         }
     }     
