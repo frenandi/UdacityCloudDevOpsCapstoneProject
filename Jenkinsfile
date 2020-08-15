@@ -78,19 +78,10 @@ pipeline {
                 }
             }
         }
-        stage('First deploy from kubernetes'){
-            steps{
-                sh "/home/ubuntu/kubectl apply -f ${kubernetesDeployYamlFileName}"
-            }
-        }
-        /*
         stage('First deploy from kubernetes') {
             steps{
-                withAWS(region:'us-east-2',credentials:'awscredentials') {
-                    sh "kubectl apply -f ${kubernetesDeployYamlFileName}"
-                }
-                //sh "./kubernetesDeployment.sh ${kubernetesDeployYamlFileName} ${kubernetesContainerNameFromDeploymentYaml} ${kubernetesDeployName} ${registry}:${env.BUILD_ID} ${kubernetesServiceName} ${kubernetesPort} ${kubernetesTargetPort}"
+                sh "./kubernetesDeployment.sh ${kubernetesDeployYamlFileName} ${kubernetesContainerNameFromDeploymentYaml} ${kubernetesDeployName} ${registry}:${env.BUILD_ID} ${kubernetesServiceName} ${kubernetesPort} ${kubernetesTargetPort}"
             }
-        }*/
+        }
     }     
 }
