@@ -1,3 +1,11 @@
-sh echo $1
+kubectl apply -f $1
 
-sh echo $2
+kubectl set image deployments/$2 $3=$4
+
+kubectl expose deployment/$2 \
+--name=$5 \
+--type="LoadBalancer" \
+--port=$6
+--target-port=$7
+
+kubectl describe services $5
