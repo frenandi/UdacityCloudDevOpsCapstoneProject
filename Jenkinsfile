@@ -9,7 +9,7 @@ pipeline {
         clusterNodeCloudformationName = "UdacityCloudDevOpsClusterNodeStack"
         clusterNodeCloudformationFileName = "EKSNodeCloudFormation.yml"
         clusterNodeCloudformationParameterFileName = "EKSNodeCloudFormationParameters.json"
-        kubernetesDeployName = "kubernetesDeployment"
+        kubernetesDeployName = "frenandi-site"
         kubernetesDeployYamlFileName = "kubernetesDeployment.yml"
         kubernetesContainerNameFromDeploymentYaml = "frenandi-site"
         kubernetesServiceName = "frenandi-site-kubernetes-service"
