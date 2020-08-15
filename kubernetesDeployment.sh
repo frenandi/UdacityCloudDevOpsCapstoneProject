@@ -1,1 +1,1 @@
-/home/ubuntu/kubectl apply -f file://$1
+/home/ubuntu/kubectl apply -f $1
