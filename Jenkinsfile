@@ -7,7 +7,9 @@ pipeline {
     agent any
     stages {
         stage('authorizing sh script run for jenkins'){
-            sh "chmod +x -R ${env.WORKSPACE}"
+            steps{
+                sh "chmod +x -R ${env.WORKSPACE}"
+            }
         }
         stage('Testing access b') {
             steps{
