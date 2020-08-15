@@ -6,15 +6,18 @@ pipeline {
     }
     agent any
     stages {
-        stage('Testing access a') {
+        stage('authorizing sh script run for jenkins'){
+            sh "chmod +x -R ${env.WORKSPACE}"
+        }
+        stage('Testing access b') {
             steps{
-                sh "sudo ./kubernetesdeploy.sh ${registry}:${env.BUILD_ID} holamundo"
+                sh "./kubernetesdeploy.sh ${registry}:${env.BUILD_ID} holamundo"
             }
         }
         stage('Deploy Stack but with file') {
             steps{
                 withAWS(region:'us-east-2',credentials:'awscredentials') {
-                    sh 'sudo ./create-stack.sh test template1 EKSClusterCloudFormation.yml EKSClusterCloudFormationParameters.json' 
+                    sh './create-stack.sh test template1 EKSClusterCloudFormation.yml EKSClusterCloudFormationParameters.json' 
                     sh 'aws cloudformation wait stack-create-complete --stack-name firstClusterTest'
                 }
             }
