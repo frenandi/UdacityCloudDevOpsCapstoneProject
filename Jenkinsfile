@@ -14,7 +14,7 @@ pipeline {
         stage('Deploy Stack but with file') {
             steps{
                 withAWS(region:'us-east-2',credentials:'awscredentials') {
-                    sh './create-stack.sh test template1 EKSClusterCloudFormation.yml EKSClusterCloudFormationParameters.json' 
+                    sh 'sudo ./create-stack.sh test template1 EKSClusterCloudFormation.yml EKSClusterCloudFormationParameters.json' 
                     sh 'aws cloudformation wait stack-create-complete --stack-name firstClusterTest'
                 }
             }
