@@ -1,20 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frenandi-site
+    name: frenandi-site
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: frenandi-site
-  template:
-    metadata:
-      labels:
+    replicas: 1
+    selector:
+        matchLabels:
         app: frenandi-site
-    spec:
-      containers:
-      - name: frenandi-site
-        image: "frenandi/clouddevopscapstoneproject:latest"
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
+    template:
+        metadata:
+            labels:
+                app: frenandi-site
+        spec:
+            containers:
+                - name: frenandi-site
+                image: "frenandi/clouddevopscapstoneproject:latest"
+                imagePullPolicy: Always
+                ports:
+                    - containerPort: 80
+            imagePullSecrets:
+                - name: frenandicred
+      
