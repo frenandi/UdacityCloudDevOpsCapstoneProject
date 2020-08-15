@@ -10,7 +10,7 @@ pipeline {
         clusterNodeCloudformationFileName = "EKSNodeCloudFormation.yml"
         clusterNodeCloudformationParameterFileName = "EKSNodeCloudFormationParameters.json"
         kubernetesDeployName = "kubernetesDeployment"
-        kubernetesDeployYamlFileName = "kubernetesDeployment.yml"
+        kubernetesDeployYamlFileName = "https://k8s.io/examples/application/deployment.yaml"
         kubernetesContainerNameFromDeploymentYaml = "frenandi-site"
         kubernetesServiceName = "frenandi-site-kubernetes-service"
         kubernetesPort = 8080
