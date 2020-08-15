@@ -23,7 +23,7 @@ pipeline {
                 sh "chmod +x -R ${env.WORKSPACE}"
             }
         }
-       /* stage('Deploy CloudFormation EKS Cluster') {
+        stage('Deploy CloudFormation EKS Cluster') {
             steps{
                 withAWS(region:'us-east-2',credentials:'awscredentials') {
                     sh "./create-stack.sh ${clusterCloudformationName} ${clusterCloudformationFileName} ${clusterCloudformationParameterFileName}"
@@ -38,7 +38,7 @@ pipeline {
                     sh "./validation-stack.sh ${clusterNodeCloudformationName}"
                 }
             }
-        }*/
+        }
         stage ("lint dockerfile") {
             agent {
                 docker {
