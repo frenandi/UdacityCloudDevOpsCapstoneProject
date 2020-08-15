@@ -4,7 +4,7 @@
 
 /home/ubuntu/kubectl expose deployment/$2 \
 --name=$5 \
---type="NodePort" \
+--type="LoadBalancer" \
 --port=$6 \
 --target-port=$7
 

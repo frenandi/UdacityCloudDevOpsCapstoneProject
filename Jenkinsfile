@@ -14,7 +14,7 @@ pipeline {
         kubernetesContainerNameFromDeploymentYaml = "frenandi-site"
         kubernetesServiceName = "frenandi-site-kubernetes-service"
         kubernetesPort = 8080
-        kubernetesTargetPort = 9376
+        kubernetesTargetPort = 80
     }
     agent any
     stages {
@@ -23,7 +23,6 @@ pipeline {
                 sh "chmod +x -R ${env.WORKSPACE}"
             }
         }
-        /*
         stage('Deploy Stack but with file') {
             steps{
                 withAWS(region:'us-east-2',credentials:'awscredentials') {
@@ -39,7 +38,7 @@ pipeline {
                     sh "./validation-stack.sh ${clusterNodeCloudformationName}"
                 }
             }
-        }*/
+        }
         stage ("lint dockerfile") {
             agent {
                 docker {

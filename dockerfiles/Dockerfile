@@ -3,7 +3,7 @@ FROM python:3
 # Adding working directory
 WORKDIR /app
 
-# Copyint the code to working directory
+# Copying the code to working directory
 COPY . app.py /app/
 
 # Installing packages
