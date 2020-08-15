@@ -80,7 +80,9 @@ pipeline {
         }
         stage('First deploy from kubernetes') {
             steps{
-                sh "./kubernetesDeployment.sh ${kubernetesDeployYamlFileName} ${kubernetesContainerNameFromDeploymentYaml} ${kubernetesDeployName} ${registry}:${env.BUILD_ID} ${kubernetesServiceName} ${kubernetesPort} ${kubernetesTargetPort}"
+                withAWS(region:'us-east-2',credentials:'awscredentials') {
+                    sh "./kubernetesDeployment.sh ${kubernetesDeployYamlFileName} ${kubernetesContainerNameFromDeploymentYaml} ${kubernetesDeployName} ${registry}:${env.BUILD_ID} ${kubernetesServiceName} ${kubernetesPort} ${kubernetesTargetPort}"
+                }
             }
         }
     }     
