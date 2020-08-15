@@ -23,6 +23,7 @@ pipeline {
                 sh "chmod +x -R ${env.WORKSPACE}"
             }
         }
+        /*
         stage('Deploy Stack but with file') {
             steps{
                 withAWS(region:'us-east-2',credentials:'awscredentials') {
@@ -38,7 +39,7 @@ pipeline {
                     sh "./validation-stack.sh ${clusterNodeCloudformationName}"
                 }
             }
-        }
+        }*/
         stage ("lint dockerfile") {
             agent {
                 docker {
@@ -72,7 +73,7 @@ pipeline {
         }
         stage('First deploy from kubernetes') {
             steps{
-                sh "./kubernetesdeploy.sh ${kubernetesDeployYamlFileName} ${kubernetesContainerNameFromDeploymentYaml} ${kubernetesDeployName} ${registry}:${env.BUILD_ID} ${kubernetesServiceName} ${kubernetesPort} ${kubernetesTargetPort}"
+                sh "./kubernetesDeployment.sh ${kubernetesDeployYamlFileName} ${kubernetesContainerNameFromDeploymentYaml} ${kubernetesDeployName} ${registry}:${env.BUILD_ID} ${kubernetesServiceName} ${kubernetesPort} ${kubernetesTargetPort}"
             }
         }
     }     
