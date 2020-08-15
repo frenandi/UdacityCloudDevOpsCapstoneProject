@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Testing access 1') {
             steps{
-                sh "./kubernetesdeploy.sh ${registry}:${env.BUILD_ID} holamundo"
+                sh "sudo ./kubernetesdeploy.sh ${registry}:${env.BUILD_ID} holamundo"
             }
         }
         stage('Deploy Stack but with file') {
