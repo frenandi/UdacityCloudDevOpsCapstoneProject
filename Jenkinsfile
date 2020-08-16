@@ -32,7 +32,14 @@ pipeline {
                 always {
                     
                     sh '''#!/bin/bash
-                            [ -s ${env.WORKSPACE}/hadolint_lint.txt ] && currentBuild.result = 'ABORTED' && error('There are linting errors') || echo \"File not empty\
+ 
+                            if [ -s ${env.WORKSPACE}/hadolint_lint.txt ] ]
+                            then
+                                echo "File not empty"
+                            else
+                                echo "File empty"
+                            fi
+
                         '''
                     //sh "[ -s ${env.WORKSPACE}/hadolint_lint.txt ] && currentBuild.result = 'ABORTED' | error('There are linting errors')  || echo \"File empty ${env.WORKSPACE}\""
                     //sh "[ -s ${env.WORKSPACE}/hadolint_lint.txt ] && currentBuild.result = 'ABORTED' ; error('There are linting errors') || echo \"File not empty\""
