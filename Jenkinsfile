@@ -31,7 +31,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'hadolint dockerfiles/* | tee -a hadolint_lint.txt'
+                sh 'hadolint dockerfiles/* | tee -a hadolint_lint.txt | if [[ -s hadolint_lint.txt ]]; then echo "file has something"; else echo "file is empty"; fi'
             }
             post {
                 always {
