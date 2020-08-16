@@ -15,6 +15,7 @@ pipeline {
         kubernetesServiceName = "frenandi-site-kubernetes-service"
         kubernetesPort = 9090
         kubernetesTargetPort = 80
+        delete = true
     }
     agent any
     stages {
@@ -81,6 +82,26 @@ pipeline {
             steps{
                 withAWS(region:'us-east-2',credentials:'awscredentials') {
                     sh "./kubernetesDeployment.sh ${kubernetesDeployYamlFileName} ${kubernetesDeployName} ${kubernetesContainerNameFromDeploymentYaml} ${registry}:${env.BUILD_ID} ${kubernetesServiceName}"
+                }
+            }
+        }
+        stage('Input value to delete rollout'){
+            steps {
+                script {
+                    ${delete} = input(
+                            id: 'Proceed', message: 'Is Everything ok with the deploy?', parameters: [
+                            [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Proceed with delete?']
+                    ])
+                }
+            }
+        }
+        stage('UAT deployment') {
+            when {
+                expression { ${delete} == true }
+            }
+            steps {
+                withAWS(region:'us-east-2',credentials:'awscredentials') {
+                    sh "kubectl rollout status deployments/frenandi-site"
                 }
             }
         }
