@@ -35,7 +35,6 @@ pipeline {
  
                             if [ -s ${env.WORKSPACE}/hadolint_lint.txt ] ]
                             then
-                                currentBuild.result = 'ABORTED'
                                 error('There are linting errors')
                             else
                                 echo "File empty"
