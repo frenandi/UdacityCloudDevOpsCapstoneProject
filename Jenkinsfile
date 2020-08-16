@@ -30,8 +30,17 @@ pipeline {
             }
             post {
                 always {
-                    
-                    sh """#!/bin/bash
+                    script {
+                        def output_list = readFile("output.txt")
+                        if (output_list.size() == 0) {
+                            currentBuild.result = 'ABORTED'
+                            error('There are linting errors')
+                        }
+                        else{
+                            println "File empty"
+                        }
+                    }
+                    /*sh """#!/bin/bash
  
                             if [ -s ${env.WORKSPACE}/hadolint_lint.txt ] ]
                             then
@@ -39,7 +48,7 @@ pipeline {
                             else
                                 echo "File empty"
                             fi
-                        """
+                        """*/
                     //sh "[ -s ${env.WORKSPACE}/hadolint_lint.txt ] && error(\"There are linting errors\")  || echo \"File empty ${env.WORKSPACE}\""
                     //sh "[ -s ${env.WORKSPACE}/hadolint_lint.txt ] && currentBuild.result = 'ABORTED' ; error('There are linting errors') || echo \"File not empty\""
                 }
