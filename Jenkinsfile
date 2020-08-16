@@ -3,12 +3,6 @@ pipeline {
         registry = "frenandi/clouddevopscapstoneproject"
         registryCredential = "dockerhub"
         dockerImage = ''
-        /*clusterCloudformationName = "UdacityCloudDevOpsClusterStack"
-        clusterCloudformationFileName = "EKSClusterCloudFormation.yml"
-        clusterCloudformationParameterFileName = "EKSClusterCloudFormationParameters.json"
-        clusterNodeCloudformationName = "UdacityCloudDevOpsClusterNodeStack"
-        clusterNodeCloudformationFileName = "EKSNodeCloudFormation.yml"
-        clusterNodeCloudformationParameterFileName = "EKSNodeCloudFormationParameters.json"*/
         kubernetesDeployName = "frenandi-site"
         kubernetesDeployYamlFileName = "kubernetesDeployment.yml"
         kubernetesContainerNameFromDeploymentYaml = "frenandi-site"
@@ -16,6 +10,7 @@ pipeline {
         kubernetesPort = 9090
         kubernetesTargetPort = 80
         delete = true
+        hadolintPath = "/var/lib/jenkins/jobs/UdacityCloudDevOpsCapstoneProject/branches/master/builds/${env.BUILD_ID}/archive/hadolint_lint.txt"
     }
     agent any
     stages {
@@ -31,11 +26,12 @@ pipeline {
                 }
             }
             steps {
-                sh 'hadolint dockerfiles/* | tee -a hadolint_lint.txt | if [[ -s hadolint_lint.txt ]]; then echo "file has something"; else echo "file is empty"; fi'
+                sh 'hadolint dockerfiles/* | tee -a hadolint_lint.txt'
             }
             post {
                 always {
-                    sh 'if [[ -s dockerfiles/hadolint_lint.txt ]]; then echo "file has something"; else echo "file is empty"; fi'
+                    
+                    sh "if [[ -s ${hadolintPath} ]]; then echo \"file has something ${env.WORKSPACE} \"; else echo \"file is empty\"; fi"
                 }
             }
         }
