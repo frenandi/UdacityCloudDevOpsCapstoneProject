@@ -10,7 +10,7 @@ pipeline {
         kubernetesPort = 9090
         kubernetesTargetPort = 80
         delete = true
-        hadolintPath = "/var/lib/jenkins/jobs/UdacityCloudDevOpsCapstoneProject/branches/master/builds/${env.BUILD_ID}/archive/hadolint_lint.txt"
+        hadolintPath = "/var/lib/jenkins/workspace/loudDevOpsCapstoneProject_master@2/hadolint_lint.txt"
     }
     agent any
     stages {
@@ -31,7 +31,7 @@ pipeline {
             post {
                 always {
                     
-                    sh "if [[ -s ${hadolintPath} ]]; then echo \"file has something ${env.WORKSPACE} \"; else echo \"file is empty\"; fi"
+                    sh "if [[ -s ${hadolintPath} ]]; then echo \"file has something ${env.WORKSPACE} \"; else echo \"file is empty ${env.WORKSPACE} \"; fi"
                 }
             }
         }
