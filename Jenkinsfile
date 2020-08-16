@@ -35,7 +35,7 @@ pipeline {
  
                             if [ -s ${env.WORKSPACE}/hadolint_lint.txt ] ]
                             then
-                                error('There are linting errors')
+                                error("There are linting errors")
                             else
                                 echo "File empty"
                             fi
