@@ -24,22 +24,6 @@ pipeline {
                 sh "chmod +x -R ${env.WORKSPACE}"
             }
         }
-        /*stage('Deploy CloudFormation EKS Cluster') {
-            steps{
-                withAWS(region:'us-east-2',credentials:'awscredentials') {
-                    sh "./create-stack.sh ${clusterCloudformationName} ${clusterCloudformationFileName} ${clusterCloudformationParameterFileName}"
-                    sh "./validation-stack.sh ${clusterCloudformationName}"
-                }
-            }
-        }
-        stage('Deploy CloudFormation EKS ') {
-            steps{
-                withAWS(region:'us-east-2',credentials:'awscredentials') {
-                    sh "./create-stack.sh ${clusterNodeCloudformationName} ${clusterNodeCloudformationFileName} ${clusterNodeCloudformationParameterFileName}"
-                    sh "./validation-stack.sh ${clusterNodeCloudformationName}"
-                }
-            }
-        }*/
         stage ("lint dockerfile") {
             agent {
                 docker {
@@ -51,7 +35,7 @@ pipeline {
             }
             post {
                 always {
-                    archiveArtifacts 'hadolint_lint.txt'
+                    if [[ -s hadolint_lint.txt ]]; then echo "file has something"; else echo "file is empty"; fi
                 }
             }
         }
