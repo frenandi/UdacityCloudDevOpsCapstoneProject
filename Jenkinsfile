@@ -35,7 +35,7 @@ pipeline {
             }
             post {
                 always {
-                    sh 'if [[ -s hadolint_lint.txt ]]; then echo "file has something"; else echo "file is empty"; fi'
+                    sh 'if [[ -s dockerfiles/hadolint_lint.txt ]]; then echo "file has something"; else echo "file is empty"; fi'
                 }
             }
         }
