@@ -3,12 +3,12 @@ pipeline {
         registry = "frenandi/clouddevopscapstoneproject"
         registryCredential = "dockerhub"
         dockerImage = ''
-        clusterCloudformationName = "UdacityCloudDevOpsClusterStack"
+        /*clusterCloudformationName = "UdacityCloudDevOpsClusterStack"
         clusterCloudformationFileName = "EKSClusterCloudFormation.yml"
         clusterCloudformationParameterFileName = "EKSClusterCloudFormationParameters.json"
         clusterNodeCloudformationName = "UdacityCloudDevOpsClusterNodeStack"
         clusterNodeCloudformationFileName = "EKSNodeCloudFormation.yml"
-        clusterNodeCloudformationParameterFileName = "EKSNodeCloudFormationParameters.json"
+        clusterNodeCloudformationParameterFileName = "EKSNodeCloudFormationParameters.json"*/
         kubernetesDeployName = "frenandi-site"
         kubernetesDeployYamlFileName = "kubernetesDeployment.yml"
         kubernetesContainerNameFromDeploymentYaml = "frenandi-site"
@@ -24,7 +24,7 @@ pipeline {
                 sh "chmod +x -R ${env.WORKSPACE}"
             }
         }
-        stage('Deploy CloudFormation EKS Cluster') {
+        /*stage('Deploy CloudFormation EKS Cluster') {
             steps{
                 withAWS(region:'us-east-2',credentials:'awscredentials') {
                     sh "./create-stack.sh ${clusterCloudformationName} ${clusterCloudformationFileName} ${clusterCloudformationParameterFileName}"
@@ -39,7 +39,7 @@ pipeline {
                     sh "./validation-stack.sh ${clusterNodeCloudformationName}"
                 }
             }
-        }
+        }*/
         stage ("lint dockerfile") {
             agent {
                 docker {
@@ -85,7 +85,7 @@ pipeline {
                 }
             }
         }
-        stage('Input value to delete rollout'){
+        /*stage('Input value to delete rollout'){
             steps {
                 script {
                     ${delete} = input(
@@ -104,6 +104,6 @@ pipeline {
                     sh "kubectl rollout status deployments/frenandi-site"
                 }
             }
-        }
+        }*/
     }     
 }
