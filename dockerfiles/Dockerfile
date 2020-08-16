@@ -7,7 +7,7 @@ WORKDIR /app
 COPY . app.py /app/
 
 # Installing packages
-RUN pip install --upgrade pip &&\
+RUN pip install --upgrade pip==20.2.2 &&\
     pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Exposing the port 80
