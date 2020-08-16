@@ -33,11 +33,11 @@ pipeline {
                     script {
                         def output_list = readFile("hadolint_lint.txt")
                         if (output_list.size() == 0) {
-                            currentBuild.result = 'ABORTED'
-                            error('There are linting errors')
+                            println "File empty"                            
                         }
                         else{
-                            println "File empty"
+                            currentBuild.result = 'ABORTED'
+                            error('There are linting errors')
                         }
                     }
                     /*sh """#!/bin/bash
