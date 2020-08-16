@@ -32,7 +32,7 @@ pipeline {
                 always {
                     
                     //sh "[ -s ${env.WORKSPACE}/hadolint_lint.txt ] && currentBuild.result = 'ABORTED' | error('There are linting errors')  || echo \"File empty ${env.WORKSPACE}\""
-                    sh "[ -s ${env.WORKSPACE}/hadolint_lint.txt ] && echo \"File not empty\" || echo \"File empty\""
+                    sh "[ -s ${env.WORKSPACE}/hadolint_lint.txt ] && echo \"File not empty\" || currentBuild.result = 'ABORTED'"
                 }
             }
         }
