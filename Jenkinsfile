@@ -31,8 +31,11 @@ pipeline {
             post {
                 always {
                     
+                    bash '''#!/bin/bash
+                            [ -s ${env.WORKSPACE}/hadolint_lint.txt ] && (currentBuild.result = 'ABORTED' && error('There are linting errors')) || echo \"File not empty\
+                        '''
                     //sh "[ -s ${env.WORKSPACE}/hadolint_lint.txt ] && currentBuild.result = 'ABORTED' | error('There are linting errors')  || echo \"File empty ${env.WORKSPACE}\""
-                    sh "[ -s ${env.WORKSPACE}/hadolint_lint.txt ] && currentBuild.result = 'ABORTED' ; error('There are linting errors') || echo \"File not empty\""
+                    //sh "[ -s ${env.WORKSPACE}/hadolint_lint.txt ] && currentBuild.result = 'ABORTED' ; error('There are linting errors') || echo \"File not empty\""
                 }
             }
         }
