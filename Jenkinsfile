@@ -31,7 +31,7 @@ pipeline {
             post {
                 always {
                     script {
-                        def output_list = readFile("output.txt")
+                        def output_list = readFile("hadolint_lint.txt")
                         if (output_list.size() == 0) {
                             currentBuild.result = 'ABORTED'
                             error('There are linting errors')
