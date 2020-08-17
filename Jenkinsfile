@@ -14,7 +14,7 @@ pipeline {
     }
     agent any
     stages {
-        stage('authorizing sh script run for jenkins'){
+        stage('authorizing sh script run for jenkins '){
             steps{
                 sh "chmod +x -R ${env.WORKSPACE}"
             }
@@ -31,8 +31,8 @@ pipeline {
             post {
                 always {
                     script {
-                        def output_list = readFile("hadolint_lint.txt")
-                        if (output_list.size() == 0) {
+                        def file_list = readFile("hadolint_lint.txt")
+                        if (file_list.size() == 0) {
                             println "File empty"                            
                         }
                         else{
